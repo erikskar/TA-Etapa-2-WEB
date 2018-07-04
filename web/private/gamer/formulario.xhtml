@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="formEdicao">
+        <h:panelGroup rendered="#{controleGamer.editando}">
+            <div class="ui-fluid">
+                <p:messages id="messages"/>
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-20"
+                    layout="grid" styleClass="ui-panelgrid-blank">
+                    <f:facet name="header">
+                        <p:outputLabel value="Edição de Gamers"/>
+                    </f:facet>
+                    <p:outputLabel value="ID"/>
+                    <p:inputText value="#{controleGamer.objeto.id}"
+                                 size="5" readonly="true"/>
+                    <p:outputLabel value="Nome" for="txtName"/>
+                    <p:inputText value="#{controleGamer.objeto.name}"
+                                 id="txtName" size="40" maxlength="40"/>
+                    <p:outputLabel value="Email" for="txtEmail"/>
+                    <p:inputText value="#{controlePerson.objeto.email}"
+                                 id="txtEmail" size="40" maxlength="40"/>
+                    <p:outputLabel value="Password" for="txtPassword"/>
+                    <p:inputText value="#{controleGamer.objeto.password}"
+                                 id="txtPassword" size="40" maxlength="40"/>
+                    <p:outputLabel value="Usuário" for="txtPessoa"/>
+                    <p:inputText value="#{controleGamer.objeto.pessoa}"
+                                 id="txtPessoa" size="40" maxlength="40"/>
+                    <p:commandButton value="Salvar"
+                                     icon="ui-icon-disk"
+                                     actionListener="#{controleGamer.salvar()}"
+                                     update="formEdicao :formListagem"/>
+                </p:panelGrid>
+                
+                <h:panelGroup id="painelAutorizacao">
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-20"
+                                 layout="grid" styleClass="ui-panelgrid-blank"
+                                 rendered="#{controleGamer.editandoAutorizacao}">
+                        <f:facet name="header">
+                            <p:outputLabel value="Edição de autorizações do projeto"/>
+                        </f:facet>             
+                        
+                        <p:outputLabel value="Autorização" for="selectAutorizacao"/>
+                        <p:selectOneMenu id="selectAutorizacao" value="#{controleGamer.autorizacao}"
+                                         filter="true">
+                            <f:converter converterId="converterAutorizacao"/>
+                            <f:selectItem noSelectionOption="true"
+                                          itemLabel="Selecione um registro"/>
+                            <f:selectItems value="#{controleGamer.daoAutorizacao.listaTodos}"
+                                           var="p" itemLabel="#{p.name}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value=""/>
+                        <p:commandButton value="Salvar Autorização" icon="ui-icon-disk"
+                                         actionListener="#{controleGamer.salvaAutorizacao()}"
+                                         id="btnAdicionarAutorizacao"
+                                         process="btnAdicionarAutorizacao painelAutorizacoes"
+                                         update="messages painelAutorizacoes listagemAutorizacao"/>                                         
+                    </p:panelGrid>                                                            
+                </h:panelGroup> 
+                
+            </div>
+                
+                
+                <h:panelGroup id="listagemAutorizacao">
+                            <h:panelGroup>
+                    <p:commandButton value="Nova Autorização"
+                                     actionListener="#{controleGamer.novaAutorizacao()}"
+                                     update="listagemAutorizacao painelAutorizacoes"
+                                     process="@this"/>
+                    <p:dataTable value="#{controleGamer.objeto.autorizacoes}" 
+                                 var="col" reflow="true">
+                        <f:facet name="header">
+                            <p:outputLabel value="Autorizações do Usuário"/>
+                        </f:facet>
+                        
+                        <p:column headerText="Nome">
+                            <p:outputLabel value="#{col.name}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Descrição">
+                            <p:outputLabel value="#{col.description}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Ações">
+                            <div align="center">
+                                <p:commandButton icon="ui-icon-trash"
+                                                 actionListener="#{controleGamer.removerAutorizacao(col)}"
+                                                 process="@this" update="@form"/>                                                 
+                            </div>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+            </h:panelGroup>
+                
+                
+        </h:panelGroup>
+    </h:form>
+</html>
+
