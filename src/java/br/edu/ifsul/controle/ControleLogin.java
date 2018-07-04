@@ -40,14 +40,15 @@ public class ControleLogin implements Serializable{
         try {
             HttpServletRequest request = (HttpServletRequest) 
                     FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            
-            request.login(this.usuario, this.senha);
-            
             System.out.println("Usuario: "+this.usuario);
             System.out.println("Senha: "+this.senha);
             
+            request.login(this.usuario, this.senha);
+                        
             if(request.getUserPrincipal() != null){
-                setUsuarioAutenticado(getDaoUsuario().localiza(request.getUserPrincipal().getName()));
+                System.out.println("Chegou aqui após login");
+                setUsuarioAutenticado(getDaoUsuario().localizaPorNomeUsuario(request.getUserPrincipal().getName()));
+                System.out.println("Após consulta no sql");
                 getGamer().add(usuarioAutenticado);
                 Util.mensagemInformacao("Login efetuado com sucesso");
                 usuario = "";
@@ -57,6 +58,7 @@ public class ControleLogin implements Serializable{
             return "/index?faces-redirect=true";
             
         } catch (Exception e) {
+            e.printStackTrace();
             Util.mensagemErro("Usuário ou senha inválidos! " + Util.getMensagemErro(e));
             return "/login?faces-redirect=true";
         }

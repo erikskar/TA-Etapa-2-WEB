@@ -14,11 +14,11 @@
                 <b:navBar brand="TA">
                     <b:navbarLinks>
                         <b:dropMenu value="Cadastros" rendered="#{controleLogin.usuarioAutenticado != null}">
-                            <b:navCommandLink value="Pessoas" ajax="false"
+                            <b:navCommandLink value="Gamers" ajax="false"
                                               rendered="#{p:ifGranted('ADMINISTRADOR')}"
-                                              action="#{controlePerson.listar()}"/>
-                            <b:navCommandLink value="Posts" ajax="false"
-                                              action="#{controlePost.listar()}"/>
+                                              action="#{controleGamer.listar()}"/>
+                            <b:navCommandLink value="Jogos" ajax="false"
+                                              action="#{controleJogo.listar()}"/>
                         </b:dropMenu>
 
                         <b:dropMenu value="Usuario: #{controleLogin.usuarioAutenticado != null ? 

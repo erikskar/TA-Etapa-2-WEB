@@ -31,9 +31,10 @@ public class GamerDAO<TIPO> extends DAOGenerico<Gamer> implements Serializable {
         return obj;
     }   
     
-    public Gamer localiza(String pessoa){
-        Query query = em.createQuery("from Pessoa where upper(pessoa) = :pessoa");
+    public Gamer localizaPorNomeUsuario(String pessoa){
+        Query query = em.createQuery("from Gamer where upper(pessoa) = :pessoa");
         query.setParameter("pessoa", pessoa.toUpperCase());
+        System.out.println(query.toString());
         Gamer obj = (Gamer) query.getSingleResult();
         obj.getAutorizacoes().size();
         return obj;
